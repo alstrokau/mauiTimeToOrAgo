@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="mauiTimeToOrAgo.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <!--<Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a submarine number ten" />-->
+
+            <Label
+                x:Name="lbOut"
+                Text="Hello, World!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label Text="Set target date/time" FontSize="18" />
+
+            <HorizontalStackLayout>
+                <DatePicker x:Name="dpTargetDate" />
+                <TimePicker x:Name="tpTargetTime" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="8">
+                <Button x:Name="btnSave" Text="Save date" Clicked="OnSaveDateClicked" />
+                <Button x:Name="btnClear" Text="Clear" Clicked="OnClearDateClicked" />
+            </HorizontalStackLayout>
+
+            <Label x:Name="lblStoredDate" Text="No date saved" FontAttributes="Italic" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+
+</ContentPage>
