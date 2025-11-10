@@ -7,7 +7,7 @@
     Title="mauiTimeToOrAgo">
 
     <ShellContent
-        Title="Home"
+        Title="Time To or Ago"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

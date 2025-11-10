@@ -54,7 +54,8 @@
         {
             if (targetDateTime == null)
             {
-                lbOut.Text = "--:--:--";
+                lbOutMain.Text = "--:--:--";
+                lbOutSecond.Text = "--:--:--";
                 return;
             }
 
@@ -64,24 +65,31 @@
             if (dt > now)
             {
                 var span = dt - now;
-                lbOut.Text = FormatTimeSpan(span) + " left";
+                lbOutMain.Text = FormatTimeSpan(span).Main;
+                lbOutSecond.Text = FormatTimeSpan(span).Second + "\nleft";
             }
             else
             {
                 var span = now - dt;
-                lbOut.Text = FormatTimeSpan(span) + " ago";
+                lbOutMain.Text = FormatTimeSpan(span).Main;
+                lbOutSecond.Text = FormatTimeSpan(span).Second + "\nago";
             }
         }
 
-        private static string FormatTimeSpan(TimeSpan span)
+        private static (string Main, string Second) FormatTimeSpan(TimeSpan span)
         {
+            string result;
+
             if (span.TotalDays >= 1)
-                return $"{(int)span.TotalDays}d {span.Hours}h {span.Minutes}m {span.Seconds}s";
-            if (span.TotalHours >= 1)
-                return $"{(int)span.TotalHours}h {span.Minutes}m {span.Seconds}s";
-            if (span.TotalMinutes >= 1)
-                return $"{(int)span.TotalMinutes}m {span.Seconds}s";
-            return $"{span.Seconds}s";
+                result = $"{(int)span.TotalDays}d {span.Hours}h {span.Minutes:D2}m {span.Seconds:D2}s";
+            else if (span.TotalHours >= 1)
+                result = $"{(int)span.TotalHours}h {span.Minutes:D2}m {span.Seconds:D2}s";
+            else if (span.TotalMinutes >= 1)
+                result = $"{(int)span.TotalMinutes}m {span.Seconds:D2}s";
+            else
+                result = $"{span.Seconds}s ";
+
+            return (result[..result.IndexOf(' ')], result[(result.IndexOf(' ') + 1)..]);
         }
 
         private void OnSaveDateClicked(object? sender, EventArgs e)
@@ -91,7 +99,7 @@
             var dt = date + time;
             targetDateTime = dt;
             Preferences.Set(PrefKey, dt.ToString());
-            lblStoredDate.Text = $"Saved: {dt:G}";
+            lblStoredDate.Text = $"Target DateTime: {dt:dd/MM/yyyy HH:mm:ss}";
         }
 
         private void OnClearDateClicked(object? sender, EventArgs e)
@@ -99,7 +107,8 @@
             targetDateTime = null;
             Preferences.Remove(PrefKey);
             lblStoredDate.Text = "No date saved";
-            lbOut.Text = "--:--:--";
+            lbOutMain.Text = "--:--:--";
+            lbOutSecond.Text = "--:--:--";
         }
     }
 }
