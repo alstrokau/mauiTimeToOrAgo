@@ -19,7 +19,6 @@
                 if (DateTime.TryParse(s, out var dt))
                 {
                     targetDateTime = dt;
-                    lblStoredDate.Text = $"Saved: {dt:G}";
                     dpTargetDate.Date = dt.Date;
                     tpTargetTime.Time = dt.TimeOfDay;
                 }
@@ -81,34 +80,28 @@
             string result;
 
             if (span.TotalDays >= 1)
-                result = $"{(int)span.TotalDays}d {span.Hours}h {span.Minutes:D2}m {span.Seconds:D2}s";
+                result = $"{(int)span.TotalDays}d\n{span.Hours}h\n{span.Minutes:D2}m\n{span.Seconds:D2}s";
             else if (span.TotalHours >= 1)
-                result = $"{(int)span.TotalHours}h {span.Minutes:D2}m {span.Seconds:D2}s";
+                result = $"{(int)span.TotalHours}h\n{span.Minutes:D2}m\n{span.Seconds:D2}s";
             else if (span.TotalMinutes >= 1)
-                result = $"{(int)span.TotalMinutes}m {span.Seconds:D2}s";
+                result = $"{(int)span.TotalMinutes}m\n{span.Seconds:D2}s";
             else
-                result = $"{span.Seconds}s ";
+                result = $"{span.Seconds}s\n ";
 
-            return (result[..result.IndexOf(' ')], result[(result.IndexOf(' ') + 1)..]);
+            return (result[..result.IndexOf('\n')], result[(result.IndexOf('\n') + 1)..]);
         }
 
-        private void OnSaveDateClicked(object? sender, EventArgs e)
+        private void dpTargetDate_DateSelected(object sender, DateChangedEventArgs e) => SaveDateTime();
+
+        private void SaveDateTime()
         {
             var date = dpTargetDate.Date;
             var time = tpTargetTime.Time;
             var dt = date + time;
             targetDateTime = dt;
             Preferences.Set(PrefKey, dt.ToString());
-            lblStoredDate.Text = $"Target DateTime: {dt:dd/MM/yyyy HH:mm:ss}";
         }
 
-        private void OnClearDateClicked(object? sender, EventArgs e)
-        {
-            targetDateTime = null;
-            Preferences.Remove(PrefKey);
-            lblStoredDate.Text = "No date saved";
-            lbOutMain.Text = "--:--:--";
-            lbOutSecond.Text = "--:--:--";
-        }
+        private void tpTargetTime_TimeSelected(object sender, TimeChangedEventArgs e) => SaveDateTime();
     }
 }

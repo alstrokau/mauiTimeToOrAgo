@@ -10,36 +10,29 @@
             <VerticalStackLayout>
                 <Label
                     x:Name="lbOutMain"
-                    Text="Hello, World!"
+                    Text=""
                     Style="{StaticResource Headline}"
                     SemanticProperties.HeadingLevel="Level1" />
 
                 <Label
                     x:Name="lbOutSecond"
-                    Text="Hello, World!"
+                    Text=""
                     Style="{StaticResource Headline}"
-                    FontSize="48"
+                    FontSize="52"
                     SemanticProperties.HeadingLevel="Level2" />
             </VerticalStackLayout>
 
             <VerticalStackLayout
                 Grid.Row="1">
-                <Label Text="Set target date/time" FontSize="18" />
+                <Label Text="Set target date/time" Margin="5" FontSize="18" />
 
-                <HorizontalStackLayout>
-                    <DatePicker x:Name="dpTargetDate" />
-                    <TimePicker x:Name="tpTargetTime" Format="HH:mm" />
+                <HorizontalStackLayout Margin="5">
+                    <DatePicker x:Name="dpTargetDate" DateSelected="dpTargetDate_DateSelected"/>
+                    <TimePicker x:Name="tpTargetTime" Format="HH:mm" TimeSelected="tpTargetTime_TimeSelected"/>
                 </HorizontalStackLayout>
-
-                <HorizontalStackLayout Spacing="8">
-                    <Button x:Name="btnSave" Text="Save date" Clicked="OnSaveDateClicked" />
-                    <Button x:Name="btnClear" Text="Clear" Clicked="OnClearDateClicked" />
-                </HorizontalStackLayout>
-
-                <Label x:Name="lblStoredDate" Text="No date saved" FontAttributes="Italic" />
+                
             </VerticalStackLayout>
         </Grid>
     </ScrollView>
-
 
 </ContentPage>
